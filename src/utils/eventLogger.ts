@@ -49,19 +49,26 @@ export async function sendLog(type: LogType, message: string, extraMetadata?: Lo
         });
         return;
     }
+
+    // Check for dev env, if it is, console.log it instead of channel logging.
+    if(process.env['ENVIRONMENT'] === "DEV") return console.log(`__DEV-MODE__ [${getLogType(type)}]: ${message}`);
+
     // Create Discord Channel Log Embed
     const embed = new EmbedBuilder()
         .setTitle(`${getLogType(type)} Log`)
         .setDescription(type === LogType.Error ? "||<@233955058604179457>|| "+message : message)
         .setColor(getEmbedColor(type));
+    
     // Add extra metadata
     if(typeof extraMetadata !== "undefined" && extraMetadata !== null) {
         for(const [name, value] of Object.entries(extraMetadata))
             if(value) embed.addFields({name, value});
     }
+
     // Setup footer
     embed.setTimestamp();
     embed.setFooter({text: `Internal Report System`});
+
     // Send the embed log
     await logChannel.send({embeds: [embed]});
 }
