@@ -8,12 +8,6 @@
                     "node": "current"
                 }
             }
-        ],
-        [
-            "minify",
-            {
-                "builtIns": false
-            }
         ]
     ],
     "comments": false
