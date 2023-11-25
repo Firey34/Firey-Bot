@@ -12,6 +12,6 @@ if [ -z "$SENTRY_PROJECT" ]; then
     echo "Missing Sentry Project, skipping...";
     exit 0;
 fi
-
+echo "Setting up dist for Sentry..."
 npx sentry-cli sourcemaps inject ./dist
 npx sentry-cli sourcemaps upload --release="$(git rev-parse HEAD)" ./dist

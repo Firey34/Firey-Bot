@@ -2,7 +2,12 @@ version: '3'
 
 services:
   bot:
-    build: .
+    build:
+      context: .
+      args:
+        - SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+        - SENTRY_ORG=${SENTRY_ORG}
+        - SENTRY_PROJECT=${SENTRY_PROJECT}
     container_name: firey-bot
     ports:
       - "${WEBSERVER_PORT:-80}:${WEBSERVER_PORT:-80}"
@@ -20,9 +25,6 @@ services:
       - AMQP_CONN
       - REDIS_CONN
       - YTSECRET
-      - SENTRY_AUTH_TOKEN
-      - SENTRY_ORG
-      - SENTRY_PROJECT
     depends_on:
       - redis
     restart: on-failure
